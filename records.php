@@ -1,5 +1,11 @@
-<?php include 'navbar.php'; ?>
-<?php include 'php/config.php'; ?>
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+include 'php/config.php';  // Make sure path is correct
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
