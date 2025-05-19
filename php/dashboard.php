@@ -4,23 +4,16 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
-include 'navbar.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
 </head>
+<link rel="stylesheet" href="assets/style.css">
 <body>
-    <div class="header">
-        <img src="img/KRA_Logo.png" alt="KRA Logo">
-        <h1>Kenya Revenue Authority Portal</h1>
-    </div>
-
-    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?>!</h1>
-
+    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
     <nav>
         <ul>
             <li><a href="records.php">Manage Records</a></li>

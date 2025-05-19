@@ -1,3 +1,4 @@
+<?php include 'navbar.php'; ?>
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -5,23 +6,35 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Tax Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Tax Calculator</h1>
-    
-    <form id="tax-form">
-        <label for="income">Enter Monthly Income (KES):</label>
-        <input type="number" id="income" required>
-        <button type="submit">Calculate</button>
-    </form>
+    <header>
+        <img src="img/kra-logo.png" alt="KRA Logo" height="60">
+        <nav>
+            <a href="dashboard.php">Dashboard</a>
+            <a href="taxpayers.php">Taxpayer Management</a>
+            <a href="tax_calculator.php">Tax Calculator</a>
+            <a href="logout.php">Logout</a>
+        </nav>
+    </header>
 
-    <h3>Results:</h3>
-    <p id="tax-output"></p>
+    <main>
+        <h1>Tax Calculator</h1>
+        <form id="tax-form">
+            <label for="income">Enter Monthly Income (KES):</label>
+            <input type="number" id="income" required>
+            <button type="submit">Calculate</button>
+        </form>
+
+        <h3>Results:</h3>
+        <p id="tax-output"></p>
+    </main>
 
     <script>
         const form = document.getElementById('tax-form');
@@ -37,20 +50,15 @@ if (!isset($_SESSION['user_id'])) {
         });
 
         function calculateTax(income) {
-            // Kenyan monthly PAYE tax brackets 2024 example
             let tax = 0;
-
-            if(income <= 24000) {
+            if (income <= 24000) {
                 tax = income * 0.1;
-            } else if(income <= 32333) {
+            } else if (income <= 32333) {
                 tax = (24000 * 0.1) + ((income - 24000) * 0.25);
             } else {
                 tax = (24000 * 0.1) + ((32333 - 24000) * 0.25) + ((income - 32333) * 0.3);
             }
-
-            // Personal relief (e.g. KES 2400/month)
-            tax -= 2400;
-
+            tax -= 2400; // personal relief
             return tax > 0 ? tax : 0;
         }
     </script>

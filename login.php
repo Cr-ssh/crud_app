@@ -1,42 +1,33 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
-if (isset($_SESSION['user_id'])) {
-    header('Location: dashboard.php');
-    exit;
-}
-?>
+include 'php/config.php'; // DB connection
 
-<?php
-include 'php/config.php'; // adjust the path if needed
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    $sql = "SELECT id, password FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
-    
-    if ($stmt->execute()) {
-        $stmt->store_result();
-        if ($stmt->num_rows === 1) {
-            $stmt->bind_result($id, $hashed_password);
-            $stmt->fetch();
+    $stmt->execute();
+    $stmt->store_result();
 
-            if (password_verify($password, $hashed_password)) {
-                $_SESSION['user_id'] = $id;
-                header('Location: dashboard.php');
-                exit;
-            } else {
-                $error = "Invalid username or password.";
-            }
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($user_id, $hashed_password);
+        $stmt->fetch();
+
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['username'] = $username;
+            header("Location: dashboard.php");
+            exit;
         } else {
-            $error = "Invalid username or password.";
+            $error = "Invalid password.";
         }
     } else {
-        $error = "Something went wrong. Try again.";
+        $error = "User not found.";
     }
 
     $stmt->close();
@@ -44,30 +35,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - MyCRUD</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>KRA Login</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Optional if you have styles -->
 </head>
-<body>
-<div class="container">
-    <h2>Login</h2>
+<header>
+    <img src="img/KRA_Logo.png" alt="KRA Logo">
+    <h1>Kenya Revenue Authority Portal</h1>
+</header>
 
-    <?php if ($error): ?>
-        <p style="color:red;"><?php echo $error; ?></p>
+<body>
+    <h1>Login to KRA Portal</h1>
+
+    <?php if (!empty($error)): ?>
+        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
     <form method="POST" action="">
-        <div class="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" required />
-        </div>
-        <div class="form-group">
-            <label>Password:</label>
-            <input type="password" name="password" required />
-        </div>
+        <label>Username:</label>
+        <input type="text" name="username" required><br><br>
+
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
+
         <button type="submit">Login</button>
     </form>
-</div>
 </body>
 </html>
