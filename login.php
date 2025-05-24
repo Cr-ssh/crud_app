@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-include 'php/config.php'; // DB connection
+include 'php/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
@@ -39,28 +39,115 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>KRA Login</title>
-    <link rel="stylesheet" href="css/style.css"> <!-- Optional if you have styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            background-color: #b30000;
+            width: 100%;
+            padding: 20px 0;
+            position: absolute;
+            top: 0;
+        }
+
+        header img {
+            height: 70px;
+        }
+
+        header h1 {
+            margin: 10px 0 0;
+            color: white;
+        }
+
+        .login-container {
+            background-color: #111;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            margin-top: 100px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #fff;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #b30000;
+            color: white;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d10000;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-<header>
-    <img src="img/KRA_Logo.png" alt="KRA Logo">
-    <h1>Kenya Revenue Authority Portal</h1>
-</header>
-
 <body>
-    <h1>Login to KRA Portal</h1>
+    <header>
+        <img src="img/KRA_Logo.png" alt="KRA Logo">
+        <h1>Kenya Revenue Authority Portal</h1>
+    </header>
 
-    <?php if (!empty($error)): ?>
-        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
+    <div class="login-container">
+        <h2>Login to KRA Portal</h2>
 
-    <form method="POST" action="">
-        <label>Username:</label>
-        <input type="text" name="username" required><br><br>
+        <?php if (!empty($error)): ?>
+            <p class="error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
-        <label>Password:</label>
-        <input type="password" name="password" required><br><br>
+        <form method="POST" action="">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
 
-        <button type="submit">Login</button>
-    </form>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

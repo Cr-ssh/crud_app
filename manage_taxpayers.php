@@ -8,13 +8,12 @@
     <title>CRUD System</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<header>
-    <img src="img/KRA_Logo.png" alt="KRA Logo">
-    <h1>Kenya Revenue Authority Portal</h1>
-</header>
 
 <body>
     <div class="container">
+     <div style="text-align: right; margin-bottom: 20px;">
+        <a href="tax_calculator.php" class="btn">Go to Tax Calculator</a>
+    </div>
         <h1>Records Management</h1>
         
         <!-- Add/Edit Record Form -->

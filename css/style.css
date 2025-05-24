@@ -1,50 +1,159 @@
-/* style.css */
-
+/* General Page Styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    color: #000000;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+    background-color: #000; /* Black */
+    color: #fff; /* White text for contrast */
     margin: 0;
     padding: 0;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
 header {
-    background-color: #b30000;
+    background-color: #b30000; /* Bright Red */
     padding: 10px 20px;
     color: white;
     display: flex;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
-/* Enhance the logo style and spacing */
 header img {
     height: 60px;
     width: auto;
     margin-right: 20px;
 }
 
-/* Optional: Make header stick to top */
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* Wrapper to center only main content below header */
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding-top: 20px;
 }
 
+.page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 20px;
+    box-sizing: border-box;
+}
 
+/* Container */
 .container {
     max-width: 900px;
     margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
+    padding: 30px;
+    background-color: #000; /* Black */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
+
+/* Headings */
+h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #b30000;
+    margin-bottom: 10px;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+    font-family: 'Poppins', sans-serif;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 2px solid #b30000;
+    background-color: #000;
+    color: #fff;
+}
+
+/* Buttons */
+button, .btn {
+    font-family: 'Poppins', sans-serif;
+    background-color: #b30000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #800000;
+}
+
+/* Edit and Delete Buttons */
+.edit-btn, .delete-btn {
+    margin: 2px;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Edit Button - Red Outline */
+.edit-btn {
+    background-color: transparent;
+    border: 2px solid #b30000;
+    color: #b30000;
+    font-weight: bold;
+}
+
+.edit-btn:hover {
+    background-color: #b30000;
+    color: white;
+}
+
+/* Delete Button - Solid Black */
+.delete-btn {
+    background-color: #000;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background-color: #333;
+}
+
+/* Table Styling */
 .table-container table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: white;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
 }
 
 .table-container th {
@@ -56,61 +165,82 @@ header {
 
 .table-container td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #b30000;
 }
 
 .table-container tr:hover {
-    background-color: #f1f1f1;
+    background-color: #111;
 }
 
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-input, select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-}
-
-label {
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-input[type="number"], input[type="text"] {
-    padding: 10px;
-    border: 1px solid #b30000;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #b30000;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-right: 5px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #800000;
-}
-
-.edit-btn, .delete-btn {
-    margin: 2px;
-    font-size: 14px;
-}
-
-
+/* Tax Output Styling */
 #tax-output {
     margin-top: 20px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #b30000;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar Links */
+.navbar a {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Calculation Font */
+.calculation-font {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* Dashboard Styling */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Adjust to fit below navbar */
+    text-align: center;
+    padding: 20px;
+}
+
+.dashboard-container h1 {
+    font-size: 2rem;
+    margin: 15px 0;
+}
+
+.dashboard-container nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-container nav li {
+    margin: 8px 0;
+}
+
+.dashboard-container nav a {
+    color: #b30000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.dashboard-container nav a:hover {
+    text-decoration: underline;
+}
+
+/* Extra Header Image Style */
+header img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
 }
