@@ -64,5 +64,7 @@
         <a href="manage_taxpayers.php">Taxpayers</a>
         <a href="tax_calculator.php">Tax Calculator</a>
         <a href="logout.php">Logout</a>
+	<a href="tax_history.php">View Tax History</a>
+	
     </div>
 </div>
