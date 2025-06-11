@@ -1,117 +1,121 @@
 <?php
 session_start();
+include("php/config.php");
+
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
+    header("Location: login.php");
+    exit();
 }
-include 'navbar.php';
+
+// Error Reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Function to safely count rows
+function getCount($conn, $query) {
+    $result = $conn->query($query);
+    if (!$result) {
+        echo "<p><strong>Query Failed:</strong> $query<br><strong>Error:</strong> " . $conn->error . "</p>";
+        return 0;
+    }
+    $row = $result->fetch_row();
+    return $row[0] ?? 0;
+}
+
+// Count Data
+$totalTaxpayers = getCount($conn, "SELECT COUNT(*) FROM users");
+$todayReturns = getCount($conn, "SELECT COUNT(*) FROM tax_history WHERE DATE(created_at) = CURDATE()");
+$activities = getCount($conn, "SELECT COUNT(*) FROM tax_history");
+$notifications = getCount($conn, "SELECT COUNT(*) FROM tax_calculations");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>KRA Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .page-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 80px);
-            padding: 20px;
-            box-sizing: border-box;
+        body {
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+            color: #000;
+            margin: 0;
+            padding: 0;
         }
-
-        .container {
-            max-width: 900px;
-            width: 100%;
-            padding: 30px;
-            background-color: #000;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        .navbar {
+            background-color: #b70000;
+            padding: 1rem;
+            color: white;
             text-align: center;
         }
-
-        .header img {
-            height: 80px;
-            margin-bottom: 10px;
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            text-align: center;
         }
-
-        .header h1 {
-            font-size: 1.8rem;
+        .stat-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        .stat-box {
+            background-color: #000;
             color: #fff;
-            margin-bottom: 20px;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 200px;
+            transition: transform 0.3s ease;
         }
-
-        h2 {
-            color: #fff;
+        .stat-box:hover {
+            transform: scale(1.05);
         }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
+        .stat-box h2 {
+            font-size: 2.5rem;
+            margin: 0;
         }
-
-        nav ul li {
-            margin: 10px 0;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #b30000;
-            font-weight: bold;
+        .stat-box p {
+            margin-top: 0.5rem;
             font-size: 1.1rem;
         }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-
-        .dashboard-widgets {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .widget-card {
-            background-color: #111;
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            width: 200px;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-            font-weight: bold;
-            color: #fff;
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="page-wrapper">
-        <div class="container">
-            <div class="header">
-                <img src="img/KRA_Logo.png" alt="KRA Logo">
-                <h1>Kenya Revenue Authority Portal</h1>
-            </div>
 
-            <h2>Welcome, <?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?>!</h2>
+<?php include("navbar.php"); ?>
 
-            <div class="dashboard-widgets">
-                <div class="widget-card">Total Taxpayers: 124</div>
-                <div class="widget-card">Tax Returns Today: 36</div>
-                <div class="widget-card">Last Login: <?php echo date("F j, Y, g:i a"); ?></div>
-            </div>
-
-            <nav>
-                <ul>
-                    <li><a href="records.php">Manage Records</a></li>
-                    <li><a href="tax_calculator.php">Tax Calculator</a></li>
-                    <li><a href="logout.php">Logout</a></li>
-                </ul>
-            </nav>
+<div class="dashboard-container">
+    <div class="stat-grid">
+        <div class="stat-box">
+            <h2><?= $totalTaxpayers ?></h2>
+            <p>Total Taxpayers</p>
+        </div>
+        <div class="stat-box">
+            <h2><?= $todayReturns ?></h2>
+            <p>Today's Tax Returns</p>
+        </div>
+        <div class="stat-box">
+            <h2><?= $activities ?></h2>
+            <p>Tax History Records</p>
+        </div>
+        <div class="stat-box">
+            <h2><?= $notifications ?></h2>
+            <p>Tax Calculations</p>
         </div>
     </div>
+</div>
+
+<div class="footer">
+    Logged in as: <strong><?= htmlspecialchars($_SESSION['username'] ?? 'User') ?></strong>
+</div>
+
 </body>
 </html>
